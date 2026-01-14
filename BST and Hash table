@@ -1,0 +1,179 @@
+/*
+11. Implement a menu driven program with follwing operations
+1.Construct BST (40,20,60,10,30,50,70,45,52,55)
+2.Perform Tree Traverals.
+3.Exit
+*/
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+// Define the structure of a node in the binary search tree
+struct node
+{
+struct node *leftchild;
+int data;
+struct node *rightchild;
+};
+typedef struct node *treePointer;
+treePointer root = NULL; // Initialize an empty tree
+treePointer createnode(int value);
+treePointer insertBST(treePointer root, int value);
+void inorder(treePointer root);
+void preorder(treePointer root);
+void postorder(treePointer root);
+int main()
+{
+// Array of values to create the binary search tree
+// Can take any array of 10 Sample values given..
+int values[] = {40,20,60,10,30,50,70,45,52,55};
+int i, ch, n = 10; // n is Size of the above array...
+while (1)
+{
+printf("1.Construct BST\n 2.Traversals \n3.Exit \nEnter Your Choice:");
+scanf("%d", &ch);
+switch (ch)
+{
+case 1:
+/* Create BST by inserting given elements into the tree */
+for (i = 0; i < n; i++)
+{
+root = insertBST(root, values[i]);
+}
+printf("Binary Search Tree Constructed.\n ");
+break;
+case 2:
+printf("\n Inorder: ");
+inorder(root);
+printf("\n Pre order: ");
+preorder(root);
+printf("\n Post order: ");
+postorder(root);
+printf("\n");
+break;
+case 4:
+exit(0);
+}
+}
+return 0;
+}
+// Function to create a new node
+treePointer createnode(int value)
+{
+treePointer temp = malloc(sizeof(struct node));
+temp->data = value;
+temp->leftchild = NULL;
+temp->rightchild = NULL;
+return temp;
+}
+// Function to insert a value into the binary search tree
+treePointer insertBST(treePointer root, int value)
+{
+// If the tree is empty, create a new node and make it the root
+if (root == NULL)
+{
+root = createnode(value);
+}
+// If the value is less than the root,insert into the leftchild subtree
+else if (value < root->data)
+{
+root->leftchild = insertBST(root->leftchild, value);
+}
+// If the value is greater than or equal to the root,
+// insert into the rightchild subtree
+else
+{
+root->rightchild = insertBST(root->rightchild, value);
+}
+return root;
+}
+/* Function to perform inorder(L V R) traversal of the binary */
+void inorder(treePointer root)
+{
+if (root)
+{
+inorder(root->leftchild); // Visit Left Child
+printf("%d ", root->data); // Visit Root
+inorder(root->rightchild); // Visit Right Child
+}
+}
+/*Function to perform preorder (V L R) traversal of the binary*/
+void preorder(treePointer root)
+{
+if (root)
+{
+printf("%d ", root->data);
+preorder(root->leftchild);
+preorder(root->rightchild);
+}
+}
+// Function to perform postorder(L R V) traversal of the binary
+void postorder(treePointer root)
+{
+if (root)
+{
+postorder(root->leftchild);
+postorder(root->rightchild);
+printf("%d ", root->data);
+}
+}
+
+
+
+
+/*
+12.Implement a C Program to create Hash Table for the given Values
+{12,13,23,33,43,27,38}.
+Apply division method with hashfunction H(k)=key mod SIZE.
+*/
+#include <stdio.h>
+#define SIZE 10 // Hash table size
+int hashTable[SIZE];
+// Hash function using division method
+int hashFunction(int key)
+{
+return key % SIZE;
+}
+// Insert key into hash table
+void insert(int key)
+{
+int index = hashFunction(key);
+if (hashTable[index] == -1)
+hashTable[index] = key;
+else
+printf("Collision occurred at index %d\n"
+, index);
+}
+// Display hash table
+void display()
+{
+int i;
+printf("\n Hash Table:\n");
+for (i = 0; i < SIZE; i++)
+{
+if (hashTable[i] != -1)
+printf("HashTable[%d] : %d\n"
+, i, hashTable[i]);
+else
+printf("HashTable[%d] : Empty\n"
+, i);
+}
+}
+int main()
+{
+int i, key;
+// Initialize hash table
+for (i = 0; i < SIZE; i++)
+hashTable[i] = -1;
+// Insert elements
+insert(12);
+insert(23);
+insert(43);
+insert(13);
+insert(27);
+insert(38);
+// Display hash table
+display();
+return 0;
+}
